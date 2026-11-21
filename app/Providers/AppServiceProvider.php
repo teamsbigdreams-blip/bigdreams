@@ -35,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
                     'url' => $url,
                 ]);
         });
-        Event::listen(Login::class, RecordUserLogin::class);
         if (! $this->app->environment('local')) {
             URL::forceScheme('https');
         }
