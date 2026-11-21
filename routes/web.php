@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\ProfileController;
@@ -96,8 +96,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-Route::get('/profile/two-factor/confirm-password', fn () => redirect()->route('profile.edit'))
+Route::get('/profile/two-factor/confirm-password', fn() => redirect()->route('profile.edit'))
     ->middleware(['auth', 'verified', 'password.confirm'])
     ->name('profile.two-factor.confirmed');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
