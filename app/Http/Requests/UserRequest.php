@@ -30,10 +30,8 @@ class UserRequest extends FormRequest
         $isUpdate = $this->isMethod('put') || $this->isMethod('patch');
 
         return [
-            'department_id' => ['required', 'exists:departments,id'],
             'name' => [$isUpdate ? 'sometimes' : 'required', 'string', 'max:255', Rule::unique('users', 'name')->ignore($userId)],
             'email' => [$isUpdate ? 'sometimes' : 'required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
-            'nrk' => [$isUpdate ? 'sometimes' : 'required', 'string', 'max:255', Rule::unique('users', 'nrk')->ignore($userId)],
             'password' => [$isUpdate ? 'nullable' : 'required', 'string', 'min:7', 'confirmed'],
             'is_active' => ['sometimes', 'boolean'],
             'can_login' => ['sometimes', 'boolean'],

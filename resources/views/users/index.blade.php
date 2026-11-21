@@ -36,15 +36,6 @@
                 </div>
                 <div class="drawer-body">
                     <div class="mb-1">
-                        <label for="department_cari" class="form-label">Departemen</label>
-                        <select class="form-control form-control-sm" id="department_cari" x-model="filters.department_cari">
-                            <option value="">Pilih Department</option>
-                            @foreach($departments as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-1">
                         <label for="status" class="form-label">Status</label>
                         <select class="form-control form-control-sm" id="status" x-model="filters.status">
                             <option value="">Pilih Status</option>
@@ -60,7 +51,6 @@
             <x-slot name="thead" class="text-center">
                 <th style="width: 50px;" class="text-center">No</th>
                 <th class="text-center">Nama</th>
-                <th style="width: 140px;" class="text-center">Departemen</th>
                 <th style="width: 140px;" class="text-center">Status</th>
                 <th style="width: 140px;" class="text-center">Akses</th>
                 @canany(['users.update', 'users.delete'])
@@ -71,7 +61,6 @@
             <x-slot name="tbody">
                 <td class="text-center" x-text="(items.from || 1) + index"></td>
                 <td x-text="item.name"></td>
-                <td class="text-center" x-text="item.department?.department_alias || 'N/A'"></td>
                 <td class="text-center">
                     <template x-if="item.is_active">
                         <span class="badge badge-subtle theme-success"><i class="bi bi-check-circle-fill text-success fs-5" title="Aktif"></i> Aktif</span>

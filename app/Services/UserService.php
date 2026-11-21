@@ -22,7 +22,6 @@ class UserService
         // $query = User::query();
         // Uncomment the line below if you want to eager load the 'department' relationship
         $query = User::query()
-            ->with('department')
             ->withExists([
                 'permissions as can_login' => static fn($query) => $query->where('name', 'system.login'),
             ]);
@@ -31,18 +30,12 @@ class UserService
             $search = trim($filters['search']);
 
             $query->where(function ($q) use ($search): void {
-                $q->where('name', 'like', "%{$search}%")
-                    // Tambahkan relasi/kolom pencarian lain jika diperlukan, contoh:
-                    ->orWhere('nrk', 'like', "%{$search}%");
+                $q->where('name', 'like', "%{$search}%");
             });
         }
 
         if (isset($filters['status']) && $filters['status'] !== '') {
             $query->where('is_active', (bool) $filters['status']);
-        }
-
-        if (isset($filters['department_cari']) && $filters['department_cari'] !== '') {
-            $query->where('department_id', $filters['department_cari']);
         }
 
         return $query->latest()->orderBy('id', 'desc')->paginate(10);
@@ -147,8 +140,4 @@ class UserService
      *
      * @return array<int, string>
      */
-    public function getDepartmentDropdown(): array
-    {
-        return Department::getDropdownOptions();
-    }
 }

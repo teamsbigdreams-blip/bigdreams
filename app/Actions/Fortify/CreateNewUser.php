@@ -27,11 +27,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'nrk' => ['required', 'digits:7', Rule::unique(User::class, 'nrk')],
-            'department_id' => [
-                'required',
-                Rule::exists(Department::class, 'id')->where('is_active', true),
-            ],
+
             'email' => [
                 'required',
                 'string',
@@ -45,8 +41,6 @@ class CreateNewUser implements CreatesNewUsers
         return DB::transaction(function () use ($input): User {
             $user = User::create([
                 'name' => $input['name'],
-                'nrk' => $input['nrk'],
-                'department_id' => $input['department_id'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
             ]);

@@ -10,16 +10,6 @@
                 <div class="invalid-feedback d-block" x-text="errors.name"></div>
             </template>
 
-            <x-form.input name="nrk" label="NRK" x-model="form.nrk" required />
-            <template x-if="errors.nrk">
-                <div class="invalid-feedback d-block" x-text="errors.nrk"></div>
-            </template>
-
-            <x-form.select name="department_id" label="Department" :options="$departments" placeholder="Pilih Department" x-model="form.department_id" required />
-            <template x-if="errors.department_id">
-                <div class="invalid-feedback d-block" x-text="errors.department_id"></div>
-            </template>
-
             <x-form.input name="email" label="Email" type="email" x-model="form.email" required />
             <template x-if="errors.email">
                 <div class="invalid-feedback d-block" x-text="errors.email"></div>
@@ -78,7 +68,6 @@
                 id: '',
                 name: '',
                 nrk: '',
-                department_id: '',
                 'email': '',
                 password: '',
                 password_confirmation: '',
@@ -93,7 +82,6 @@
                     id: '',
                     name: '',
                     nrk: '',
-                    department_id: '',
                     'email': '',
                     password: '',
                     password_confirmation: '',
@@ -111,7 +99,6 @@
                     id: item.id,
                     name: item.name,
                     nrk: item.nrk,
-                    department_id: item.department_id,
                     'email': item.email,
                     password: '',
                     password_confirmation: '',

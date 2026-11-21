@@ -43,9 +43,6 @@
                             @can('users.view')
                             <a class="menu-item" href="{{ route('users.index') }}">Users</a>
                             @endcan
-                            @can('departments.view')
-                            <a class="menu-item" href="{{ route('departments.index') }}">Department</a>
-                            @endcan
                         </div>
                     </li>
                     @endcanany

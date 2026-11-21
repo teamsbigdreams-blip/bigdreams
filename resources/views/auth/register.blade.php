@@ -14,8 +14,6 @@
             <form method="POST" action="{{ route('register') }}">
                 @csrf
                 <x-form.input name="name" label="Nama Lengkap" icon="bi-person" placeholder="Nama lengkap" :value="old('name')" required autocomplete="name" />
-                <x-form.input name="nrk" label="NRK" type="text" icon="bi-person-badge" placeholder="7 digit NRK" :value="old('nrk')" required inputmode="numeric" minlength="7" maxlength="7" autocomplete="off" />
-                <x-form.select name="department_id" label="Departemen" :options="$departments" placeholder="Pilih departemen" required />
                 <x-form.input name="email" label="Alamat Email" type="email" icon="bi-envelope" placeholder="nama@contoh.com" :value="old('email')" required autocomplete="email" inputmode="email" />
                 <x-form.password name="password" label="Kata Sandi" :toggle="true" required autocomplete="new-password" />
                 <x-form.password name="password_confirmation" label="Konfirmasi Kata Sandi" :toggle="true" required autocomplete="new-password" />

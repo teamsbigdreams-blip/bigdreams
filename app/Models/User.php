@@ -18,10 +18,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable([
     'uuid',
-    'department_id',
     'name',
     'email',
-    'nrk',
     'password',
     'is_active',
     'last_login_at',
@@ -53,11 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->uuid = (string) Str::uuid();
             }
         });
-    }
-
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function creator(): BelongsTo

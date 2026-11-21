@@ -24,11 +24,6 @@ Breadcrumbs::for('users.index', function (BreadcrumbTrail $trail) {
     $trail->push('Users', route('users.index'));
 });
 
-// Home > Master > Department
-Breadcrumbs::for('departments.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('master.index');
-    $trail->push('Department', route('departments.index'));
-});
 
 
 // ==========================================
