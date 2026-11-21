@@ -57,3 +57,9 @@ Breadcrumbs::for('user-permissions.index', function (BreadcrumbTrail $trail) {
     $trail->parent('settings.index');
     $trail->push('User Permission', route('user-permissions.index'));
 });
+
+// Home > Company (Index)
+Breadcrumbs::for('companies.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Company', route('companies.index'));
+});

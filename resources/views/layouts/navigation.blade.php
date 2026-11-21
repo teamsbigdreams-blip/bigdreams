@@ -36,12 +36,15 @@
                         </div>
                     </li>
                     @endcanany
-                    @canany(['users.view', 'departments.view'])
+                    @canany(['users.view', 'companies.view'])
                     <li class="nav-item">
                         <button class="nav-link text-secondary nav-hover-primary" type="button" data-bs-toggle="menu" aria-expanded="false"><i class="bi bi-database"></i> Master</button>
                         <div class="menu">
                             @can('users.view')
                             <a class="menu-item" href="{{ route('users.index') }}">Users</a>
+                            @endcan
+                            @can('companies.view')
+                            <a class="menu-item" href="{{ route('companies.index') }}">Companies</a>
                             @endcan
                         </div>
                     </li>

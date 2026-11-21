@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('company_code', 20)->unique();
             $table->string('company_name');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

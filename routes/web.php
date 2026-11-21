@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\UserRoleController;
+use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -93,6 +95,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->middleware('can:master-menus.update')->name('update');
         Route::delete('/{masterMenu}', [MasterMenuController::class, 'destroy'])
             ->middleware('can:master-menus.delete')->name('destroy');
+    });
+    // Company Routes
+    Route::prefix('companies')->name('companies.')->group(function () {
+        Route::get('/', [CompanyController::class, 'index'])
+            ->middleware('can:companies.view')->name('index');
+
+        Route::post('/', [CompanyController::class, 'store'])
+            ->middleware('can:companies.create')->name('store');
+
+        Route::get('/{company}/edit', [CompanyController::class, 'edit'])
+            ->middleware('can:companies.update')->name('edit');
+
+        Route::put('/{company}', [CompanyController::class, 'update'])
+            ->middleware('can:companies.update')->name('update');
+
+        Route::delete('/{company}', [CompanyController::class, 'destroy'])
+            ->middleware('can:companies.delete')->name('destroy');
     });
 });
 
