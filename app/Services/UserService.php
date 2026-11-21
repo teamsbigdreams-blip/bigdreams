@@ -23,7 +23,7 @@ class UserService
         // Uncomment the line below if you want to eager load the 'department' relationship
         $query = User::query()
             ->withExists([
-                'permissions as can_login' => static fn($query) => $query->where('name', 'system.login'),
+                'permissions as can_login' => static fn ($query) => $query->where('name', 'system.login'),
             ]);
 
         if (! empty($filters['search'])) {

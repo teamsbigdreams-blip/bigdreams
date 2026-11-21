@@ -53,6 +53,7 @@
                 <th class="text-center">Nama</th>
                 <th style="width: 140px;" class="text-center">Status</th>
                 <th style="width: 140px;" class="text-center">Akses</th>
+                <th style="width: 140px;" class="text-center">Last Login</th>
                 @canany(['users.update', 'users.delete'])
                 <th style="width: 140px;" class="text-center">Aksi</th>
                 @endcanany
@@ -76,6 +77,9 @@
                     <template x-if="!item.can_login">
                         <span class="badge badge-subtle theme-danger"><i class="bi bi-x-circle-fill text-danger fs-5" title="Tidak"></i> Tidak</span>
                     </template>
+                </td>
+                <td class="text-center">
+                    <span class="badge text-bg-light border" x-text="item.last_login_formatted || '-'"></span>
                 </td>
                 @canany(['users.update', 'users.delete'])
                 <td class="text-center">

@@ -30,6 +30,7 @@ class UserController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json($this->userService->getPaginatedList($filters));
         }
+
         return view('users.index');
     }
 

@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Traits\HasMasterActivityLog;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +28,7 @@ use Spatie\Permission\Traits\HasRoles;
     'last_login_ip',
 ])]
 #[Hidden(['password', 'remember_token'])]
+#[Appends(['last_login_formatted'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
@@ -61,5 +64,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function createdUsers(): HasMany
     {
         return $this->hasMany(User::class, 'user_id');
+    }
+
+    protected function lastLoginFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->last_login_at?->format('Y-m-d H:i') ?? '-',
+        );
     }
 }

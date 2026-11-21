@@ -24,8 +24,6 @@ Breadcrumbs::for('users.index', function (BreadcrumbTrail $trail) {
     $trail->push('Users', route('users.index'));
 });
 
-
-
 // ==========================================
 // KATEGORI: SITES SETTINGS
 // ==========================================
