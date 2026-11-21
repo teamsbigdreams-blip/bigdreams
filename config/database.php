@@ -111,8 +111,10 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-                Mysql::ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_ATTR_SSL_VERIFY_SERVER_CERT'),
+                \Pdo\Mysql::ATTR_SSL_CA => ($ca = env('MYSQL_ATTR_SSL_CA'))
+                    ? (str_starts_with($ca, '/') ? $ca : base_path($ca))
+                    : null,
+                \Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_ATTR_SSL_VERIFY_SERVER_CERT'),
             ]) : [],
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
