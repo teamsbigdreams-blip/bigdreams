@@ -49,6 +49,15 @@
                         </div>
                     </li>
                     @endcanany
+
+                    <li class="nav-item">
+                        <button class="nav-link text-secondary nav-hover-primary" type="button" data-bs-toggle="menu" aria-expanded="false"><i class="bi bi-database"></i>Transactions</button>
+                        <div class="menu">
+                            <a class="menu-item" href="{{ route('transaction-hourlies.index') }}">Hourly</a>
+                            <a class="menu-item" href="{{ route('transaction-dailies.index') }}">Daily</a>
+                        </div>
+                    </li>
+
                 </ul>
 
                 <ul class="nav navbar-nav ms-auto">

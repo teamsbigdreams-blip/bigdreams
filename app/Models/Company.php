@@ -89,8 +89,8 @@ class Company extends Model
     //     return $this->belongsTo(TransactionDaily::class, 'company_id');
     // }
 
-    // public function transaction_hourly(): BelongsTo
-    // {
-    //     return $this->belongsTo(TransactionHourly::class, 'company_id');
-    // }
+    public function transaction_hourly(): BelongsTo
+    {
+        return $this->belongsTo(TransactionHourly::class, 'company_id');
+    }
 }

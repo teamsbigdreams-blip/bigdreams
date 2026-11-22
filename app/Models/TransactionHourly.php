@@ -33,7 +33,7 @@ class TransactionHourly extends Model
     protected function casts(): array
     {
         return [
-            'datetime' => 'datetime',
+            'datetime' => 'datetime:Y-m-d H:i',
             'open' => 'decimal:2',
             'high' => 'decimal:2',
             'low' => 'decimal:2',

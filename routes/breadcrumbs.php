@@ -69,3 +69,9 @@ Breadcrumbs::for('transaction-hourlies.index', function (BreadcrumbTrail $trail)
     $trail->parent('dashboard');
     $trail->push('Transaction Hourly', route('transaction-hourlies.index'));
 });
+
+// Home > Transaction Daily (Index)
+Breadcrumbs::for('transaction-dailies.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Transaction Daily', route('transaction-dailies.index'));
+});

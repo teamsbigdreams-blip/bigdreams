@@ -4,6 +4,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TransactionDailyController;
+use App\Http\Controllers\TransactionHourlyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\UserRoleController;
@@ -112,6 +114,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::delete('/{company}', [CompanyController::class, 'destroy'])
             ->middleware('can:companies.delete')->name('destroy');
+    });
+    // Transaction Hourlies Routes
+    Route::prefix('transaction-hourlies')->name('transaction-hourlies.')->group(function () {
+        Route::get('/', [TransactionHourlyController::class, 'index'])
+            ->middleware('can:transaction-hourlies.view')->name('index');
+    });
+    // Transaction Dailies Routes
+    Route::prefix('transaction-dailies')->name('transaction-dailies.')->group(function () {
+        Route::get('/', [TransactionDailyController::class, 'index'])
+            ->middleware('can:transaction-dailies.view')->name('index');
     });
 });
 

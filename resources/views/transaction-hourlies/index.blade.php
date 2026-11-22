@@ -34,20 +34,15 @@
                 </span>
             </div>
 
+
             <dialog class="drawer drawer-end" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="drawerRight" aria-labelledby="drawerRightLabel">
                 <div class="drawer-header">
                     <h5 class="drawer-title" id="drawerRightLabel">Advanced Filters</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
                 </div>
                 <div class="drawer-body">
-                    <div class="mb-1">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control form-control-sm" id="status" x-model="filters.status">
-                            <option value="">Semua Status</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                        </select>
-                    </div>
+                    <x-form.input name="start_date" label="Start Date" placeholder="YYYY-MM-DD" x-model="filters.start_date" icon="bi-calendar-week" />
+                    <x-form.input name="end_date" label="End Date" placeholder="YYYY-MM-DD" x-model="filters.end_date" icon="bi-calendar-week" />
 
                     <x-button-search @click="applyFilters()" />
                 </div>
@@ -55,72 +50,34 @@
 
             <x-slot name="thead" class="text-center">
                 <th style="width: 50px;" class="text-center">No</th>
-                <th class="text-center">Nama</th>
-                <th style="width: 140px;" class="text-center">Status</th>
-                @canany(['transaction-hourlies.update', 'transaction-hourlies.delete'])
-                <th style="width: 140px;" class="text-center">Aksi</th>
-                @endcanany
+                <th class="text-center">Company Code</th>
+                <th class="text-center">Datetime</th>
+                <th class="text-center">Open</th>
+                <th class="text-center">High</th>
+                <th class="text-center">Low</th>
+                <th class="text-center">Close</th>
+                <th class="text-center">Volume</th>
+
             </x-slot>
 
             <x-slot name="tbody">
                 <td class="text-center" x-text="(items.from || 1) + index"></td>
-                <td x-text="item.name"></td>
-                <td class="text-center">
-                    <template x-if="item.is_active">
-                        <span class="badge badge-subtle theme-success"><i class="bi bi-check-circle-fill text-success fs-5" title="Aktif"></i> Aktif</span>
-                    </template>
-                    <template x-if="!item.is_active">
-                        <span class="badge badge-subtle theme-danger"><i class="bi bi-x-circle-fill text-danger fs-5" title="Non-Aktif"></i> Non-Aktif</span>
-                    </template>
-                </td>
-                @canany(['transaction-hourlies.update', 'transaction-hourlies.delete'])
-                <td class="text-center">
-                    <div class="position-relative">
-                        <button class="btn btn-sm btn-light border-0 px-2 py-1 shadow-none" type="button" data-bs-toggle="menu" aria-expanded="false">
-                            <i class="bi bi-three-dots"></i>
-                        </button>
-                        <div class="menu">
-                            @can('transaction-hourlies.update')
-                            <button type="button" class="menu-item text-warning" @click="editItem(item)">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </button>
-                            @endcan
-                            @can('transaction-hourlies.delete')
-                            <button type="button" class="menu-item text-danger" @click="deleteItem(item.id)">
-                                <i class="bi bi-trash3-fill"></i> Hapus
-                            </button>
-                            @endcan
-                        </div>
-                    </div>
-                </td>
-                @endcanany
+                <td x-text="item.company?.company_code"></td>
+                <td x-text="item.datetime" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.open" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.high" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.low" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.close" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.volume" class="text-center" style="width: 140px;"></td>
             </x-slot>
         </x-table-data>
 
-        {{-- Include Modal Form --}}
-        @include('transaction-hourlies.partials.transaction-hourlies-form')
     </div>
 
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('transactionHourlyPage', () => ({
-                editItem(item) {
-                    window.dispatchEvent(new CustomEvent('edit-transaction-hourlies-modal', {
-                        detail: item
-                    }));
-                },
-                deleteItem(id) {
-                    if (confirm('Yakin ingin menghapus data ini?')) {
-                        axios.delete("{{ route('transaction-hourlies.destroy', ['transactionHourly' => '__ID__']) }}".replace('__ID__', id))
-                            .then(response => {
-                                window.dispatchEvent(new CustomEvent('transaction-hourlies-saved'));
-                                alert(response.data.message || 'Data berhasil dihapus.');
-                            })
-                            .catch(error => {
-                                alert(error.response?.data?.message || 'Terjadi kesalahan pada server.');
-                            });
-                    }
-                }
+
             }));
         });
     </script>

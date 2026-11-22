@@ -8,3 +8,6 @@
     background-color: var(--bs-primary-bg-subtle) !important;
     border-radius: 0.375rem; /* Opsional, agar background terlihat rapi */
 }
+[data-vc="calendar"] {
+    z-index: 2000 !important;
+}

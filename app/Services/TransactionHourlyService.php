@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\TransactionHourly;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -18,69 +19,44 @@ class TransactionHourlyService
      */
     public function getPaginatedList(array $filters): LengthAwarePaginator
     {
-        $query = TransactionHourly::query();
+        $query = TransactionHourly::query()
+            ->select('transaction_hourly.*')
+            ->leftJoin('company', 'transaction_hourly.company_id', '=', 'company.id')
+            ->with('company');
         // Uncomment the line below if you want to eager load the 'department' relationship
         //$query = TransactionHourly::query()->with('relasi');
 
         if (! empty($filters['search'])) {
-            $search = trim($filters['search']);
+            $search = trim((string) $filters['search']);
 
-            $query->where(function ($q) use ($search): void {
-                $q->where('name', 'like', "%{$search}%");
-                // Tambahkan relasi/kolom pencarian lain jika diperlukan, contoh:
-                // ->orWhere('description', 'like', "%{$search}%");
+            $query->whereHas('company', function ($q) use ($search): void {
+                $q->where('company_code', 'like', "%{$search}%");
             });
         }
 
-        if (isset($filters['status']) && $filters['status'] !== '') {
-            $query->where('is_active', (bool) $filters['status']);
-        }
+        $latestDate = ! empty($filters['start_date']) || ! empty($filters['end_date'])
+            ? null
+            : TransactionHourly::query()->max('datetime');
 
-        return $query->latest()->orderBy('id', 'desc')->paginate(10);
+        $defaultDate = $latestDate ? Carbon::parse((string) $latestDate) : Carbon::today();
+
+        $start = ! empty($filters['start_date'])
+            ? Carbon::parse((string) $filters['start_date'])->startOfDay()
+            : $defaultDate->copy()->startOfDay();
+
+        $end = ! empty($filters['end_date'])
+            ? Carbon::parse((string) $filters['end_date'])->endOfDay()
+            : $defaultDate->copy()->endOfDay();
+
+        $query->whereBetween('transaction_hourly.datetime', [$start, $end]);
+
+        // 4. Urutkan berdasarkan timestamp terbaru lalu company_code
+        return $query
+            ->orderBy('transaction_hourly.datetime', 'desc')
+            ->orderBy('company.company_code', 'asc')
+            ->paginate(20);
     }
 
-    /**
-     * Store a newly created transactionHourly in storage.
-     *
-     * @param array<string, mixed> $data
-     */
-    public function store(array $data): TransactionHourly
-    {
-        return DB::transaction(function () use ($data): TransactionHourly {
-            return TransactionHourly::create($data);
-        });
-    }
-
-    /**
-     * Update the specified transactionHourly in storage.
-     *
-     * @param array<string, mixed> $data
-     */
-    public function update(TransactionHourly $transactionHourly, array $data): TransactionHourly
-    {
-        return DB::transaction(function () use ($transactionHourly, $data): TransactionHourly {
-            $transactionHourly->update($data);
-
-            return $transactionHourly->fresh();
-        });
-    }
-
-    /**
-     * Remove the specified transactionHourly from storage.
-     *
-     * @throws Exception
-     */
-    public function delete(TransactionHourly $transactionHourly): bool
-    {
-        // Contoh validasi relasi sebelum dihapus (sesuaikan dengan relasi model Anda jika ada)
-        // if ($transactionHourly->someRelation()->exists()) {
-        //     throw new Exception('Data cannot be deleted because it is still related to other data.');
-        // }
-
-        return DB::transaction(function () use ($transactionHourly): bool {
-            return (bool) $transactionHourly->delete();
-        });
-    }
 
     /**
      * Get formatted paginated list for AJAX/Axios responses.
@@ -105,13 +81,13 @@ class TransactionHourlyService
             ],
         ];
     }
-      /**
+    /**
      * Get department options for dropdown.
      *
      * @return array<int, string>
      */
-   // public function getDepartmentDropdown(): array
+    // public function getDepartmentDropdown(): array
     //{
-     //   return Department::getDropdownOptions();
+    //   return Department::getDropdownOptions();
     //}
 }
