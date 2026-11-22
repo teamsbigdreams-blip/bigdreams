@@ -46,6 +46,7 @@
                             @can('companies.view')
                             <a class="menu-item" href="{{ route('companies.index') }}">Companies</a>
                             @endcan
+
                         </div>
                     </li>
                     @endcanany
@@ -62,7 +63,11 @@
                         </div>
                     </li>
                     @endcanany
-
+                    @can('screeners.view')
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary nav-hover-primary" href="{{ route('screeners.index') }}"><i class="bi bi-speedometer2"></i>Screeners</a>
+                    </li>
+                    @endcan
                 </ul>
 
                 <ul class="nav navbar-nav ms-auto">

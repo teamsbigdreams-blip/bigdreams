@@ -75,3 +75,9 @@ Breadcrumbs::for('transaction-dailies.index', function (BreadcrumbTrail $trail) 
     $trail->parent('dashboard');
     $trail->push('Transaction Daily', route('transaction-dailies.index'));
 });
+
+// Home > Screener (Index)
+Breadcrumbs::for('screeners.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('dashboard');
+    $trail->push('Screener', route('screeners.index'));
+});
