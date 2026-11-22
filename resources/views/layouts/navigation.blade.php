@@ -49,14 +49,19 @@
                         </div>
                     </li>
                     @endcanany
-
+                    @canany(['transaction-hourlies.view', 'transaction-dailies.view'])
                     <li class="nav-item">
                         <button class="nav-link text-secondary nav-hover-primary" type="button" data-bs-toggle="menu" aria-expanded="false"><i class="bi bi-database"></i>Transactions</button>
                         <div class="menu">
+                            @can('transaction-hourlies.view')
                             <a class="menu-item" href="{{ route('transaction-hourlies.index') }}">Hourly</a>
+                            @endcan
+                            @can('transaction-dailies.view')
                             <a class="menu-item" href="{{ route('transaction-dailies.index') }}">Daily</a>
+                            @endcan
                         </div>
                     </li>
+                    @endcanany
 
                 </ul>
 
