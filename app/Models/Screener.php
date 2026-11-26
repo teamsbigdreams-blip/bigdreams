@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
     'date',
     'pattern_name',
     'close',
+    'price_current',
+    'result',
     'swing_low_price',
     'swing_low_price_date',
     'swing_low_price_volume',
@@ -37,6 +39,8 @@ class Screener extends Model
     {
         return [
             'is_active' => 'boolean',
+            'price_current' => 'decimal:2',
+            'result' => 'integer',
         ];
     }
 
