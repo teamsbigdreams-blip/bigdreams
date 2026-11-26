@@ -51,6 +51,8 @@
                 <th class="text-center">Company Code</th>
                 <th class="text-center">Date</th>
                 <th class="text-center">Close</th>
+                <th class="text-center">Current Price</th>
+                <th class="text-center">Result</th>
             </x-slot>
 
             <x-slot name="tbody">
@@ -58,7 +60,18 @@
                 <td x-text="item.company?.company_code"></td>
                 <td x-text="item.date" class="text-center" style="width: 140px;"></td>
                 <td x-text="item.close" class="text-center" style="width: 140px;"></td>
-                <td x-text="item.volume" class="text-center" style="width: 140px;"></td>
+                <td x-text="item.price_current ?? '-'" class="text-center" style="width: 140px;"></td>
+                <td class="text-center" style="width: 100px;">
+                    <template x-if="Number(item.result) === 1 && item.result !== null">
+                        <i class="bi bi-check-lg text-success fw-bold" title="Win"></i>
+                    </template>
+                    <template x-if="Number(item.result) === 0 && item.result !== null">
+                        <i class="bi bi-x-lg text-danger fw-bold" title="Loss"></i>
+                    </template>
+                    <template x-if="item.result === null || item.result === undefined">
+                        <span class="text-body-secondary">-</span>
+                    </template>
+                </td>
             </x-slot>
         </x-table-data>
     </div>
@@ -69,3 +82,4 @@
         });
     </script>
 </x-app-layout>
+ 
